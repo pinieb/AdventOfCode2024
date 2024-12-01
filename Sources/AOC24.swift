@@ -2,13 +2,34 @@
 // https://docs.swift.org/swift-book
 
 import ArgumentParser
+import Foundation
 
 @main
 struct AOC24: ParsableCommand {
-  @Option(name: .shortAndLong, help: "The day to run.")
-  var day: Int
+  static let configuration = CommandConfiguration(
+    abstract: "Wrapper utility for AoC 2024",
+    subcommands: [
+      DayOne.self,
+    ],
+    defaultSubcommand: DayOne.self
+  )
+}
 
-  mutating func run() {
-    print("Hello, Advent of Code 2024!")
-  }
+struct SharedOptions: ParsableArguments {
+  @Option(help: "Which subproblem to run.")
+  var part: Subproblem
+
+  @Option(
+    help: "File containing problem input.",
+    transform: URL.init(fileURLWithPath:)
+  )
+  var pathToFile: URL
+
+  @Flag
+  var verbose: Bool = false
+}
+
+enum Subproblem: String, ExpressibleByArgument {
+    case partOne
+    case partTwo
 }
