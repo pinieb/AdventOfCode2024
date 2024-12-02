@@ -35,9 +35,10 @@
       "description": "Pick a day",
       "options": [
         "day-one",
-        "day-two"
+        "day-two",
+        "day-three"
       ],
-      "default": "day-two"
+      "default": "day-three"
     },
     {
       "id": "subproblem",

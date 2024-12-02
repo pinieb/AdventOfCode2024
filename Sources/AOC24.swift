@@ -11,6 +11,7 @@ struct AOC24: ParsableCommand {
     subcommands: [
       DayOne.self,
       DayTwo.self,
+      DayThree.self
     ],
     defaultSubcommand: DayOne.self
   )
