@@ -18,6 +18,9 @@ struct DayOne: ParsableCommand {
     switch options.part {
       case .partOne: try partOne()
       case .partTwo: try partTwo()
+      case .all: 
+        try partOne()
+        try partTwo()
     }
   }
 

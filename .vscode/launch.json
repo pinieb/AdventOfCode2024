@@ -7,12 +7,11 @@
         "${input:subcommandName}",
         "--part", "${input:subproblem}",
         "--path-to-file", "${workspaceFolder:AdventOfCode2024}/Inputs/${input:inputFile}", 
-        "--verbose"
       ],
       "cwd": "${workspaceFolder:AdventOfCode2024}",
-      "name": "Debug aoc24",
-      "program": "${workspaceFolder:AdventOfCode2024}/.build/debug/aoc24",
-      "preLaunchTask": "swift: Build Debug aoc24"
+      "name": "Release aoc24",
+      "program": "${workspaceFolder:AdventOfCode2024}/.build/release/aoc24",
+      "preLaunchTask": "swift: Build Release aoc24"
     },
     {
       "type": "lldb",
@@ -21,11 +20,12 @@
         "${input:subcommandName}",
         "--part", "${input:subproblem}",
         "--path-to-file", "${workspaceFolder:AdventOfCode2024}/Inputs/${input:inputFile}", 
+        "--verbose"
       ],
       "cwd": "${workspaceFolder:AdventOfCode2024}",
-      "name": "Release aoc24",
-      "program": "${workspaceFolder:AdventOfCode2024}/.build/release/aoc24",
-      "preLaunchTask": "swift: Build Release aoc24"
+      "name": "Debug aoc24",
+      "program": "${workspaceFolder:AdventOfCode2024}/.build/debug/aoc24",
+      "preLaunchTask": "swift: Build Debug aoc24"
     }
   ],
   "inputs": [
@@ -34,19 +34,21 @@
       "type": "pickString",
       "description": "Pick a day",
       "options": [
-        "day-one"
+        "day-one",
+        "day-two"
       ],
-      "default": "day-one"
+      "default": "day-two"
     },
     {
       "id": "subproblem",
       "type": "pickString",
       "description": "Pick which part of the problem to run.",
       "options": [
+        "all",
         "partOne",
         "partTwo"
       ],
-      "default": "partOne"
+      "default": "all"
     },
     {
       "id": "inputFile",

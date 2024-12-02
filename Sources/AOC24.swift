@@ -10,6 +10,7 @@ struct AOC24: ParsableCommand {
     abstract: "Wrapper utility for AoC 2024",
     subcommands: [
       DayOne.self,
+      DayTwo.self,
     ],
     defaultSubcommand: DayOne.self
   )
@@ -32,4 +33,5 @@ struct SharedOptions: ParsableArguments {
 enum Subproblem: String, ExpressibleByArgument {
     case partOne
     case partTwo
+    case all
 }
