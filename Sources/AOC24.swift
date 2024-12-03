@@ -9,17 +9,18 @@ struct AOC24: ParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: "Wrapper utility for AoC 2024",
     subcommands: [
+      Interactive.self,
       DayOne.self,
       DayTwo.self,
       DayThree.self
     ],
-    defaultSubcommand: DayOne.self
+    defaultSubcommand: Interactive.self
   )
 }
 
 struct SharedOptions: ParsableArguments {
   @Option(help: "Which subproblem to run.")
-  var part: Subproblem
+  var part: SubproblemOption
 
   @Option(
     help: "File containing problem input.",
@@ -31,7 +32,7 @@ struct SharedOptions: ParsableArguments {
   var verbose: Bool = false
 }
 
-enum Subproblem: String, ExpressibleByArgument {
+enum SubproblemOption: String, ExpressibleByArgument {
     case partOne
     case partTwo
     case all

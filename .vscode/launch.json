@@ -4,6 +4,17 @@
       "type": "lldb",
       "request": "launch",
       "args": [
+        "interactive",
+      ],
+      "cwd": "${workspaceFolder:AdventOfCode2024}",
+      "name": "Interactive aoc24",
+      "program": "${workspaceFolder:AdventOfCode2024}/.build/debug/aoc24",
+      "preLaunchTask": "swift: Build Debug aoc24"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "args": [
         "${input:subcommandName}",
         "--part", "${input:subproblem}",
         "--path-to-file", "${workspaceFolder:AdventOfCode2024}/Inputs/${input:inputFile}", 
