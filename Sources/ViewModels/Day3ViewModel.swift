@@ -172,7 +172,7 @@ class Day3ViewModel: ObservableObject {
   private func loadData() {
     guard dataState == .unloaded else { return }
 
-    let input: String
+    var input: String
     switch selectedInput {
       case .example1:
         input = Inputs.day3Example1
@@ -181,6 +181,8 @@ class Day3ViewModel: ObservableObject {
       case .puzzle:
         input = Inputs.day3Puzzle
     }
+
+    input.replace("\n", with: "")
 
     subproblemData[selectedPart]?.dataState = .loaded(text: input)
   }

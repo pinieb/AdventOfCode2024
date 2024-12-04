@@ -29,17 +29,16 @@ struct DataView: View {
   }
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading) {
-        ForEach(lines, id: \.self) { line in 
-          Button(action: {}) {
-            Text(line)
+    GeometryReader { size in
+      ScrollView {
+        VStack(alignment: .leading) {
+          ForEach(lines, id: \.self) { line in 
+            WrappingText(text: line, width: size.width)
           }
         }
+        .background(.black)
+        .foregroundColor(.gray)
       }
-      .frame(width: 200)
-      .background(.black)
-      .foregroundColor(.gray)
     }
   }
 }

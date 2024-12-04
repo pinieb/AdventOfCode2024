@@ -8,10 +8,11 @@ struct DayThreeView: View {
     VStack(alignment: .leading) {
       NavBar(title: Day.three.rawValue)
 
-      HStack(alignment: .top) {
+      HStack(alignment: .top, spacing: 1) {
         subproblemPicker
         inputPicker
       }
+      .frame(height: 5)
 
       contentView
     }
@@ -30,6 +31,7 @@ struct DayThreeView: View {
         )
       )
     }
+    .padding(.horizontal, 1)
     .border()
   }
 
@@ -46,6 +48,7 @@ struct DayThreeView: View {
         )
       )
     }
+    .padding(.horizontal, 1)
     .border()
   }
 
