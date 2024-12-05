@@ -1,12 +1,12 @@
 import SwiftTUI
 import Foundation
 
-struct DayThreeView: View {
-  @ObservedObject var viewModel = Day3ViewModel()
+struct Day4: View {
+  @ObservedObject var viewModel = Day4ViewModel()
 
   var body: some View {
     VStack(alignment: .leading) {
-      NavBar(title: Day.three.rawValue)
+      NavBar(title: Day.four.rawValue)
 
       HStack(alignment: .top, spacing: 1) {
         subproblemPicker
@@ -41,7 +41,7 @@ struct DayThreeView: View {
       Text("Input: ")
 
       SegmentedButton(
-        options: Day3InputOption.allCases,
+        options: Day4Input.allCases,
         selection: Binding(
           get: { viewModel.selectedInput }, 
           set: { viewModel.selectedInput = $0 }
@@ -84,24 +84,16 @@ struct DayThreeView: View {
   @ViewBuilder
   private var dataView: some View {
     VStack(alignment: .leading, spacing: 1) {
-      Text("Data")
+      Text("Output")
         .foregroundColor(.red)
 
-      switch viewModel.dataState {
-        case .unloaded:
-          VStack(alignment: .center) {
-              Text("🧝")
-              Text("There doesn't seem to be anything here!")
-          }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case .loaded(let text), .sumProducts(let text):
-          DataView(line: text)
-        case .enabledAreas(let lines):
-          DataView(lines: lines)
-        case .validCommands(let lines, _):
-          DataView(lines: lines)
-        case .runCommands(let lines, _):
-          DataView(lines: lines)
+      switch viewModel.output {
+        case .text(let text):
+          DataView(data: text)
+        case .data(let data):
+          DataView(data: data)
+            .background(.black)
+            .foregroundColor(.gray)
       }
     }
     .border()

@@ -2,13 +2,13 @@ import Foundation
 import SwiftTUI
 
 struct WrappingText: View {
-  @State var hasAppeared = false
+  @State private var hasAppeared = false
 
   let text: AttributedString
   let width: Extended
 
   var body: some View {
-    VStack {
+    VStack(alignment: .leading) {
       if !hasAppeared {
         Text(text)
       } else {

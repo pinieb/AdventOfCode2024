@@ -66,7 +66,7 @@ struct MultiplyCommand: Equatable, CustomStringConvertible {
   }
 }
 
-struct SubproblemData: Equatable {
+private struct SubproblemData: Equatable {
   var steps: [Day3Step]
   var dataState = Day3DataState.unloaded
 }

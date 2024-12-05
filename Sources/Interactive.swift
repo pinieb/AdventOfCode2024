@@ -10,8 +10,8 @@ struct Interactive: ParsableCommand {
 
 struct RootView: View {
   private let enabledDays = Set<Day>([
-    .one,
-    .three
+    .three,
+    .four
   ])
 
   @State var displayingDay: Day?
@@ -26,6 +26,7 @@ struct RootView: View {
     switch displayingDay {
       case .one: DayOneView()
       case .three: DayThreeView()
+      case .four: Day4()
       default: menuView
     }
   }
