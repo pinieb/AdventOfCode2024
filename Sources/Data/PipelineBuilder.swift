@@ -135,4 +135,32 @@ struct DisplayablePipelineBuilder2<NodeIdentifier: Hashable> {
 
     return [n0, n1, n2, n3]
   }
+
+  static func buildBlock<
+    T0: NodeType,
+    T1: NodeType,
+    T2: NodeType,
+    T3: NodeType,
+    T4: NodeType
+  >(
+    _ n0: T0,
+    _ n1: T1,
+    _ n2: T2,
+    _ n3: T3,
+    _ n4: T4
+  ) -> [any NodeType] 
+  where 
+    T0.Input == None,
+    T1.Input == T0.Output,
+    T2.Input == T1.Output,
+    T3.Input == T2.Output,
+    T4.Input == T3.Output
+  {
+    n0.nextNode = n1
+    n1.nextNode = n2
+    n2.nextNode = n3
+    n3.nextNode = n4
+
+    return [n0, n1, n2, n3, n4]
+  }
 }
