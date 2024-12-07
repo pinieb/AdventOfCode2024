@@ -25,6 +25,8 @@ protocol DayViewModel<DayInput, StepID>: ObservableObject {
   associatedtype DayInput: InputProtocol
   associatedtype StepID: Hashable & Equatable
 
+  var title: String { get }
+
   var selectedPart: Subproblem { get set }
   var selectedInput: DayInput { get set }
 

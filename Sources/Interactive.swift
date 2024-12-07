@@ -26,7 +26,7 @@ struct RootView: View {
     switch displayingDay {
       case .one: DayOneView()
       case .three: DayThreeView()
-      case .four: Day4()
+      case .four: DayView(viewModel: Day4ViewModel())
       default: menuView
     }
   }

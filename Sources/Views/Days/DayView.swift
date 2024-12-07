@@ -1,12 +1,12 @@
 import SwiftTUI
 import Foundation
 
-struct Day4: View {
-  @ObservedObject var viewModel = Day4ViewModel()
+struct DayView<Input, StepID, ViewModel: DayViewModel<Input, StepID>>: View {
+  @ObservedObject var viewModel: ViewModel
 
   var body: some View {
     VStack(alignment: .leading) {
-      NavBar(title: Day.four.rawValue)
+      NavBar(title: viewModel.title)
 
       HStack(alignment: .top, spacing: 1) {
         subproblemPicker
@@ -40,8 +40,8 @@ struct Day4: View {
     HStack(alignment: .center) {
       Text("Input: ")
 
-      SegmentedButton(
-        options: Day4Input.allCases,
+      SegmentedButton<Input>(
+        options: Input.allCases as! [Input],
         selection: Binding(
           get: { viewModel.selectedInput }, 
           set: { viewModel.selectedInput = $0 }

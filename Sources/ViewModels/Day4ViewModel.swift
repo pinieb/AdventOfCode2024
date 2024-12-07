@@ -189,6 +189,8 @@ class Day4ViewModel: DayViewModel {
       }
     ]
   }
+
+  let title = Day.four.rawValue
   
   @Published var selectedPart = Subproblem.partOne
   @Published private(set) var selectedStep: Day4StepID
