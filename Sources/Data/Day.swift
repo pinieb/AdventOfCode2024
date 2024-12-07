@@ -3,7 +3,7 @@ enum Day: String, CaseIterable {
   case two = "Day 2: Red-Nosed Reports"
   case three = "Day 3: Mull It Over"
   case four = "Day 4: Ceres Search"
-  case five = "Day 5"
+  case five = "Day 5: Print Queue"
   case six = "Day 6"
   case seven = "Day 7"
   case eight = "Day 8"
