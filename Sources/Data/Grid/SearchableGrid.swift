@@ -6,15 +6,11 @@ struct SearchableGrid<Element: Equatable> {
   private let columns: Int
   private let rows: Int
 
-  private(set) var wasFound: [[Bool]]
-
   init(elements: [[Element]]) {
     self.grid = elements
 
     self.rows = elements.count
     self.columns = elements.first?.count ?? 0
-
-    self.wasFound = [[Bool]](repeating: [Bool](repeating: false, count: columns), count: rows)
   }
 
   func findSequence(
@@ -72,60 +68,6 @@ struct SearchableGrid<Element: Equatable> {
     return [(current, position)] + match
   }
 
-  mutating func markSequence(
-    _ sequence: any Collection<Element>, 
-    directions: [Direction] = Direction.allCases
-  ) -> Int {
-    guard !sequence.isEmpty else { return 0 }
-
-    var markedCount = 0
-
-    for row in 0..<rows {
-      for column in 0..<columns {
-        for direction in directions {
-          if markSequence(
-            sequence, 
-            position: GridPosition(row: row, column: column), 
-            direction: direction
-          ) {
-            markedCount += 1
-          }
-        }
-      }
-    }
-
-    return markedCount
-  }
-
-  private mutating func markSequence(
-    _ sequence: any Collection<Element>, 
-    position: GridPosition, 
-    direction: Direction
-  ) -> Bool {
-    guard let current = sequence.first else {
-      return true
-    }
-
-    guard isValid(position: position) else { 
-      return false
-    }
-
-    guard grid[position.row][position.column] == current else { 
-      return false 
-    }
-
-    let nextPosition = makeNextPosition(from: position, direction: direction)
-
-    let shouldMark = markSequence(sequence.dropFirst(), position: nextPosition, direction: direction)
-
-    guard shouldMark else {
-      return false
-    }
-
-    wasFound[position.row][position.column] = true
-    return true
-  }
-
   private func makeNextPosition(
     from position: GridPosition, 
     direction: Direction
@@ -172,13 +114,7 @@ extension SearchableGrid: DisplayableData {
       var outputRow = AttributedString("")
       
       for col in 0..<columns {
-        var cell = AttributedString("\(grid[row][col])")
-
-        if wasFound[row][col] {
-          cell.foregroundColor = .green
-        }
-
-        outputRow += cell
+        outputRow += AttributedString("\(grid[row][col])")
       }
 
       output.append(outputRow)
