@@ -12,3 +12,11 @@ extension Int: DisplayableData {
     "\(self)".displayData
   }
 }
+
+extension Array: DisplayableData where Element: DisplayableData {
+  var displayData: [AttributedString] {
+    self
+      .map { $0.displayData }
+      .flatMap { $0 }
+  }
+}
