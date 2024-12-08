@@ -1,4 +1,8 @@
 protocol Grid {
+  associatedtype Element
+
+  var data: [[Element]] { get }
+
   var rows: Int { get }
   var columns: Int { get }
 }
@@ -39,5 +43,25 @@ extension Grid {
       row: position.row + offset.row, 
       column: position.column + offset.column
     )
+  }
+
+  func forEach(_ block: (Element) -> ()) {
+    for row in 0..<rows {
+      for column in 0..<columns {
+        block(data[row][column])
+      }
+    }
+  }
+
+  func enumerated() -> [(GridPosition, Element)] {
+    var result = [(GridPosition, Element)]()
+    
+    for row in 0..<rows {
+      for column in 0..<columns {
+        result.append((GridPosition(row: row, column: column), data[row][column]))
+      }
+    }
+
+    return result
   }
 }

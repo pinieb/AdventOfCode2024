@@ -2,7 +2,7 @@ import Foundation
 import SwiftTUI
 
 struct MarkableGrid<Element: Equatable>: Grid {
-  var grid: [[Element]]
+  var data: [[Element]]
 
   private(set) var columns: Int
   private(set) var rows: Int
@@ -10,7 +10,7 @@ struct MarkableGrid<Element: Equatable>: Grid {
   private(set) var marks: [[Color?]]
 
   init(elements: [[Element]]) {
-    self.grid = elements
+    self.data = elements
 
     self.rows = elements.count
     self.columns = elements.first?.count ?? 0
@@ -33,6 +33,18 @@ struct MarkableGrid<Element: Equatable>: Grid {
   mutating func clearMarks() {
     marks = [[Color?]](repeating: [Color?](repeating: nil, count: columns), count: rows)
   }
+
+  func countCells(marked: Color?) -> Int {
+    var count = 0
+
+    for row in 0..<rows {
+      for column in 0..<columns where marks[row][column] == marked {
+        count += 1
+      }
+    }
+
+    return count
+  }
 }
 
 extension MarkableGrid: DisplayableData {
@@ -43,7 +55,7 @@ extension MarkableGrid: DisplayableData {
       var outputRow = AttributedString("")
       
       for col in 0..<columns {
-        var cell = AttributedString("\(grid[row][col])")
+        var cell = AttributedString("\(data[row][col])")
 
         if let color = marks[row][col] {
           cell.foregroundColor = color
@@ -56,5 +68,11 @@ extension MarkableGrid: DisplayableData {
     }
 
     return output
+  }
+}
+
+extension MarkableGrid where Element == Character {
+  init(grid: String) {
+    self = MarkableGrid(elements: grid.lines.map { Array($0) })
   }
 }

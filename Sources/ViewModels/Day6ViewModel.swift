@@ -129,9 +129,9 @@ extension Day6ViewModel {
 
     for row in 0..<marks.rows {
       for column in 0..<marks.columns {
-        if marks.grid[row][column] == "#" {
+        if marks.data[row][column] == "#" {
           marks.markElement(at: GridPosition(row: row, column: column), color: .red)
-        } else if marks.grid[row][column] != "." {
+        } else if marks.data[row][column] != "." {
           marks.markElement(at: GridPosition(row: row, column: column), color: .green)
         }
       }
@@ -154,7 +154,7 @@ extension Day6ViewModel {
     var guardDirection = -1
     for row in 0..<marks.rows {
       for column in 0..<marks.columns {
-        switch marks.grid[row][column] {
+        switch marks.data[row][column] {
           case "^":
             guardPosition = GridPosition(row: row, column: column)
             guardDirection = 0
@@ -187,21 +187,21 @@ extension Day6ViewModel {
 
       let next = marks.makeNextPosition(from: guardPosition, direction: directions[guardDirection])
 
-      marks.grid[guardPosition.row][guardPosition.column] = "."
+      marks.data[guardPosition.row][guardPosition.column] = "."
       marks.markElement(at: guardPosition, color: .green)
 
       if !marks.isValid(position: next) {
         break
       }
 
-      if marks.grid[next.row][next.column] == "#" {
+      if marks.data[next.row][next.column] == "#" {
         guardDirection += 1
         guardDirection %= directions.count
       } else {
         guardPosition = next
       }
 
-      marks.grid[guardPosition.row][guardPosition.column] = directionChars[guardDirection]
+      marks.data[guardPosition.row][guardPosition.column] = directionChars[guardDirection]
     }
 
     return (marks, false)
@@ -235,17 +235,17 @@ extension Day6ViewModel {
           continue
         }
 
-        guard input.grid[row][column] == "." else { continue }
+        guard input.data[row][column] == "." else { continue }
 
         var newBarrelGrid = input
-        newBarrelGrid.grid[row][column] = "#"
+        newBarrelGrid.data[row][column] = "#"
 
         guard simulateSteps(newBarrelGrid).isLoop else {
           continue
         }
 
         barrels.markElement(at: GridPosition(row: row, column: column), color: .green)
-        barrels.grid[row][column] = "O"
+        barrels.data[row][column] = "O"
       }
     }
 

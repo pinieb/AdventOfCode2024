@@ -1,13 +1,13 @@
 import Foundation
 
 struct SearchableGrid<Element: Equatable>: Grid {
-  private let grid: [[Element]]
+  let data: [[Element]]
 
   let columns: Int
   let rows: Int
 
   init(elements: [[Element]]) {
-    self.grid = elements
+    self.data = elements
 
     self.rows = elements.count
     self.columns = elements.first?.count ?? 0
@@ -51,7 +51,7 @@ struct SearchableGrid<Element: Equatable>: Grid {
       return nil
     }
 
-    guard grid[position.row][position.column] == current else { 
+    guard data[position.row][position.column] == current else { 
       return nil 
     }
 
@@ -77,7 +77,7 @@ extension SearchableGrid: DisplayableData {
       var outputRow = AttributedString("")
       
       for col in 0..<columns {
-        outputRow += AttributedString("\(grid[row][col])")
+        outputRow += AttributedString("\(data[row][col])")
       }
 
       output.append(outputRow)

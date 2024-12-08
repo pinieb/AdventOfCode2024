@@ -4,7 +4,7 @@ import SwiftTUI
 
 
 class DayXViewModel: DayViewModel {
-  let title = Day.five.rawValue
+  let title = "" // Day.X.rawValue
 
   @Published var selectedPart = Subproblem.partOne
   @Published var selectedInput = Input.example {
