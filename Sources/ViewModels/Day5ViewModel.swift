@@ -83,6 +83,9 @@ extension Day5ViewModel {
     case parseData
     case mapPageIndices
     case sumMiddlePageOfValidOrders
+    case removeValidOrders
+    case createGraph
+    case buildReplacementOrders
 
     var description: String {
       switch self {
@@ -90,6 +93,9 @@ extension Day5ViewModel {
         case .parseData: "Parse data"
         case .mapPageIndices: "Map page indices"
         case .sumMiddlePageOfValidOrders: "Sum middle page of valid orders"
+        case .removeValidOrders: "Remove valid orders"
+        case .createGraph: "Create graph"
+        case .buildReplacementOrders: "Build replacement orders"
       }
     }
 
@@ -107,9 +113,11 @@ extension Day5ViewModel {
 extension Day5ViewModel {
   struct PrintingData: DisplayableData {
     let rules: [(Int, Int)]
-    let orders: [[Int]]
+    var orders: [[Int]]
 
-    var valid: [Bool?]
+    var edges = [Int: Set<Int>]()
+
+    var valid: [[Int]: Bool]
 
     init(
       rules: [(Int, Int)],
@@ -118,20 +126,42 @@ extension Day5ViewModel {
       self.rules = rules
       self.orders = orders
 
-      self.valid = [Bool?](repeating: nil, count: orders.count)
+      self.valid = [[Int]: Bool]()
     }
 
     var displayData: [AttributedString] {
-      orders.enumerated()
-        .map { index, order in
+      var output = [AttributedString]()
+
+      if !edges.isEmpty { 
+        output += [AttributedString("Rules graph")]
+
+        output += edges
+        .sorted{ $0.0 < $1.0 }
+        .map {
+          AttributedString("\($0), \($1)")
+        }
+
+        output += [AttributedString(" ")]
+      }
+
+      output += [AttributedString("Orders")]
+
+      output += orders
+        .map { order in
           var string = AttributedString("\(order)")
 
-          if valid[index] == true {
+          if valid[order] == true {
             string.foregroundColor = .green
+          }
+
+          if valid[order] == false {
+            string.foregroundColor = .red
           }
 
           return string
         }
+
+        return output
     }
   }
 }
@@ -149,6 +179,12 @@ extension Day5ViewModel {
       },
       .partTwo: DisplayablePipeline {
         StaticNode(id: StepID.loadData, value: input.inputValue)
+        DynamicNode(id: StepID.parseData, computation: parseData)
+        DynamicNode(id: StepID.mapPageIndices, computation: validateOrders)
+        DynamicNode(id: StepID.removeValidOrders, computation: removeValidOrders)
+        DynamicNode(id: StepID.createGraph, computation: createGraph)
+        DynamicNode(id: StepID.buildReplacementOrders, computation: buildReplacementOrders)
+        DynamicNode(id: StepID.sumMiddlePageOfValidOrders, computation: sumMiddlePageOfValidOrders)
       }
     ]
   }
@@ -192,19 +228,19 @@ extension Day5ViewModel {
   private static func validateOrders(_ input: PrintingData) -> PrintingData {
     var data = input
 
-    for (order, pages) in data.orders.enumerated() {
+    for pages in data.orders {
       var indexMap = [Int: Int]()
 
-      pages.enumerated().forEach {         
+      pages.enumerated().forEach {
         indexMap[$0.1] = $0.0
       }
 
       var isValid = true
       for rule in data.rules {
-        guard 
+        guard
           let index1 = indexMap[rule.0],
           let index2 = indexMap[rule.1]
-        else { 
+        else {
           continue
         }
 
@@ -214,7 +250,7 @@ extension Day5ViewModel {
         }
       }
 
-      data.valid[order] = isValid
+      data.valid[pages] = isValid
     }
 
     return data
@@ -222,9 +258,61 @@ extension Day5ViewModel {
 
   static func sumMiddlePageOfValidOrders(_ input: PrintingData) -> Int {
     var sum = 0
-    for (order, pages) in input.orders.enumerated() where input.valid[order] == true {
+    for pages in input.orders where input.valid[pages] == true {
       sum += pages[(pages.count - 1) / 2]
     }
     return sum
+  }
+
+    static func removeValidOrders(_ input: PrintingData) -> PrintingData {
+    var data = input
+
+    data.orders.removeAll { order in
+      data.valid[order, default: false]
+    }
+
+    return data
+  }
+
+  static func createGraph(_ input: PrintingData) -> PrintingData {
+    var data = input
+
+    for rule in data.rules {
+      data.edges[rule.1, default: Set<Int>()].insert(rule.0)
+    }
+
+    return data
+  }
+
+  static func buildReplacementOrders(_ input: PrintingData) -> PrintingData {
+    var data = input
+
+    for (order, pages) in data.orders.enumerated() {
+      var newOrder = [Int]()
+      var remainingPages = pages
+
+      while !remainingPages.isEmpty {
+        let candidatePage = remainingPages.removeFirst()
+
+        var canPlace = true
+        for page in remainingPages {
+          if data.edges[candidatePage]?.contains(page) ?? false {
+            canPlace = false
+            break
+          }
+        }
+
+        if canPlace {
+          newOrder.append(candidatePage)
+        } else {
+          remainingPages.append(candidatePage)
+        }
+      }
+
+      data.orders[order] = newOrder
+      data.valid[newOrder] = true
+    }
+
+    return data
   }
 }
