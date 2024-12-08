@@ -72,8 +72,8 @@ extension DayXViewModel {
 
     var inputValue: String {
       switch self {
-        case .example: Inputs.Day5.example
-        case .puzzle: Inputs.Day5.puzzle
+        case .example: "" // Inputs.DayX.example
+        case .puzzle: "" // Inputs.DayX.puzzle
       }
     }
   }

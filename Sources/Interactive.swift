@@ -12,7 +12,8 @@ struct RootView: View {
   private let enabledDays = Set<Day>([
     .three,
     .four,
-    .five
+    .five,
+    .six
   ])
 
   @State var displayingDay: Day?
@@ -29,6 +30,7 @@ struct RootView: View {
       case .three: DayThreeView()
       case .four: DayView(viewModel: Day4ViewModel())
       case .five: DayView(viewModel: Day5ViewModel())
+      case .six: DayView(viewModel: Day6ViewModel())
       default: menuView
     }
   }

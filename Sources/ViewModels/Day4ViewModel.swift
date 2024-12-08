@@ -89,7 +89,7 @@ class Day4ViewModel: DayViewModel {
             .flatMap { $0 }
             .map { $0.position }
           
-          data.markedGrid.markElements(at: positions)
+          data.markedGrid.markElements(at: positions, color: .green)
           data.matches += matches
 
           return data
@@ -102,7 +102,7 @@ class Day4ViewModel: DayViewModel {
             .flatMap { $0 }
             .map { $0.position }
           
-          data.markedGrid.markElements(at: positions)
+          data.markedGrid.markElements(at: positions, color: .green)
           data.matches += matches
 
           return data
@@ -115,7 +115,7 @@ class Day4ViewModel: DayViewModel {
             .flatMap { $0 }
             .map { $0.position }
           
-          data.markedGrid.markElements(at: positions)
+          data.markedGrid.markElements(at: positions, color: .green)
           data.matches += matches
 
           return data
@@ -128,7 +128,7 @@ class Day4ViewModel: DayViewModel {
             .flatMap { $0 }
             .map { $0.position }
           
-          data.markedGrid.markElements(at: positions)
+          data.markedGrid.markElements(at: positions, color: .green)
           data.matches += matches
 
           return data
@@ -181,7 +181,7 @@ class Day4ViewModel: DayViewModel {
             .flatMap { $0 }
             .map { $0.position }
 
-          data.markedGrid.markElements(at: positions)
+          data.markedGrid.markElements(at: positions, color: .green)
           data.matches += crosses
 
           return data
