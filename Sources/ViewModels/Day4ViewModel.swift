@@ -68,9 +68,9 @@ class Day4ViewModel: DayViewModel {
 
   private static func makePipelines(input: Day4Input) -> [Subproblem: DisplayablePipeline<Day4StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: Day4StepID.loadData, value: input.inputValue)
-        DynamicNode(id: Day4StepID.createSearchableGrid) { (input: String) in 
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: Day4StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: Day4StepID.createSearchableGrid) { (input: String) in 
           let chars = input.lines.map { Array($0) }
           let searchGrid = SearchableGrid(elements: chars)
           let markedGrid = MarkableGrid(elements: chars)
@@ -81,7 +81,7 @@ class Day4ViewModel: DayViewModel {
             matches: []
           )
         }
-        DynamicNode(id: Day4StepID.findHorizontalXMAS) { (data: SearchableGridAndCount<Character>) in
+        .dynamicNode(id: Day4StepID.findHorizontalXMAS) { (data: SearchableGridAndCount<Character>) in
           var data = data 
           let matches = data.searchGrid.findSequence("XMAS", directions: [.east, .west])
           
@@ -94,7 +94,7 @@ class Day4ViewModel: DayViewModel {
 
           return data
         }
-        DynamicNode(id: Day4StepID.findVerticalXMAS) { (data: SearchableGridAndCount<Character>) in
+        .dynamicNode(id: Day4StepID.findVerticalXMAS) { (data: SearchableGridAndCount<Character>) in
           var data = data 
           let matches = data.searchGrid.findSequence("XMAS", directions: [.north, .south])
           
@@ -107,7 +107,7 @@ class Day4ViewModel: DayViewModel {
 
           return data
         }
-        DynamicNode(id: Day4StepID.findForwardDiagonalXMAS) { (data: SearchableGridAndCount<Character>) in
+        .dynamicNode(id: Day4StepID.findForwardDiagonalXMAS) { (data: SearchableGridAndCount<Character>) in
           var data = data 
           let matches = data.searchGrid.findSequence("XMAS", directions: [.northeast, .southwest])
           
@@ -120,7 +120,7 @@ class Day4ViewModel: DayViewModel {
 
           return data
         }
-        DynamicNode(id: Day4StepID.findBackwardDiagonalXMAS) { (data: SearchableGridAndCount<Character>) in
+        .dynamicNode(id: Day4StepID.findBackwardDiagonalXMAS) { (data: SearchableGridAndCount<Character>) in
           var data = data 
           let matches = data.searchGrid.findSequence("XMAS", directions: [.northwest, .southeast])
           
@@ -133,10 +133,10 @@ class Day4ViewModel: DayViewModel {
 
           return data
         }
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: Day4StepID.loadData, value: input.inputValue)
-        DynamicNode(id: Day4StepID.createSearchableGrid) { (input: String) in 
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: Day4StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: Day4StepID.createSearchableGrid) { (input: String) in 
           let chars = input.lines.map { Array($0) }
           let searchGrid = SearchableGrid(elements: chars)
           let markedGrid = MarkableGrid(elements: chars)
@@ -147,7 +147,7 @@ class Day4ViewModel: DayViewModel {
             matches: []
           )
         }
-        DynamicNode(id: Day4StepID.findDiagonallyCrossedMAS) { (data: SearchableGridAndCount<Character>) in
+        .dynamicNode(id: Day4StepID.findDiagonallyCrossedMAS) { (data: SearchableGridAndCount<Character>) in
           var data = data 
 
           let forwardDiagonalMatches = data.searchGrid.findSequence(
@@ -186,7 +186,7 @@ class Day4ViewModel: DayViewModel {
 
           return data
         }
-      }
+        .build()
     ]
   }
 

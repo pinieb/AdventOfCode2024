@@ -109,18 +109,18 @@ extension Day6ViewModel {
 extension Day6ViewModel {
   private static func makePipelines(input: Input) -> [Subproblem: DisplayablePipeline<StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.findGuardCoverage, computation: findGuardCoverage)
-        DynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.findNewBarrelLocations, computation: findNewBarrelLocations)
-        DynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
-      }
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.findGuardCoverage, computation: findGuardCoverage)
+        .dynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.findNewBarrelLocations, computation: findNewBarrelLocations)
+        .dynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
+        .build()
     ]
   }
 

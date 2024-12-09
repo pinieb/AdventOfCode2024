@@ -109,23 +109,23 @@ extension Day8ViewModel {
 extension Day8ViewModel {
   private static func makePipelines(input: Input) -> [Subproblem: DisplayablePipeline<StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.markFirstAntinodes, computation: markFirstAntinodes)
-        DynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.markAllAntinodes, computation: markAllAntinodes)
-        DynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
-      }
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: .loadData, value: input.inputValue)
+        .dynamicNode(id: .parseData, computation: parseData)
+        .dynamicNode(id: .markFirstAntinodes, computation: markFirstAntinodes)
+        .dynamicNode(id: .countMarkedCells, computation: countMarkedCells)
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.markAllAntinodes, computation: markAllAntinodes)
+        .dynamicNode(id: StepID.countMarkedCells, computation: countMarkedCells)
+        .build()
     ]
   }
 
   private static func parseData(_ input: String) -> MarkableGrid<Character> {
-    MarkableGrid(grid: input)
+    MarkableGrid(grid: input)      
   }
 
   private static func markFirstAntinodes(

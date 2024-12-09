@@ -34,40 +34,7 @@ struct PipelineBuilder<NodeIdentifier: Hashable> {
 }
 
 @resultBuilder
-struct DisplayablePipelineBuilder<NodeIdentifier: Hashable> {
-  typealias NodeType = DisplayableNodeProtocol<NodeIdentifier>
-
-    static func buildBlock(_ components: [any NodeType]...) -> [any NodeType] {
-      components.flatMap { $0 }
-    }
-
-    static func buildExpression(_ expression: any NodeType) -> [any NodeType] {
-        buildBlock([expression])
-    }
-
-    static func buildExpression(_ expression: [any NodeType]) -> [any NodeType] {
-        buildBlock(expression)
-    }
-
-    static func buildOptional(_ components: [any NodeType]?) -> [any NodeType] {
-        buildBlock(components ?? [])
-    }
-
-    static func buildEither(first components: [any NodeType]) -> [any NodeType] {
-      components
-    }
-
-    static func buildEither(second components: [any NodeType]) -> [any NodeType] {
-      components
-    }
-
-    static func buildArray(_ components: [[any NodeType]]) -> [any NodeType] {
-      components.flatMap { $0 }
-    }
-}
-
-@resultBuilder
-struct DisplayablePipelineBuilder2<NodeIdentifier: Hashable> {
+struct _DisplayablePipelineBuilder<NodeIdentifier: Hashable> {
   typealias NodeType = DisplayableNodeProtocol<NodeIdentifier>
 
   static func buildBlock<T0: NodeType>(_ n0: T0) -> [any NodeType] 
@@ -230,5 +197,62 @@ struct DisplayablePipelineBuilder2<NodeIdentifier: Hashable> {
     n5.nextNode = n6
 
     return [n0, n1, n2, n3, n4, n5, n6]
+  }
+}
+
+class DisplayablePipelineBuilder<NodeIdentifier: Hashable, LastNode> {
+  private(set) var nodes: [any DisplayableNodeProtocol<NodeIdentifier>]
+  private var lastNode: LastNode?
+
+  private init(nodes: [any DisplayableNodeProtocol<NodeIdentifier>], lastNode: LastNode?) {
+    self.nodes = nodes
+    self.lastNode = lastNode
+  }
+
+  @discardableResult
+  func staticNode<Value: DisplayableData>(
+    id: NodeIdentifier, 
+    value: Value
+  ) -> DisplayablePipelineBuilder<
+    NodeIdentifier, 
+    StaticNode<NodeIdentifier, Value>
+  > {
+    let newNode = StaticNode(id: id, value: value)
+
+    return DisplayablePipelineBuilder<NodeIdentifier, StaticNode<NodeIdentifier, Value>>(
+      nodes: self.nodes + [newNode],
+      lastNode: newNode
+    )
+  }
+
+  @discardableResult
+  func dynamicNode<Value: DisplayableData>(
+    id: NodeIdentifier, 
+    computation: @escaping (LastNode.Output) -> Value
+  ) -> DisplayablePipelineBuilder<
+    NodeIdentifier, 
+    DynamicNode<NodeIdentifier, LastNode.Output, Value>
+  > where LastNode: DisplayableNodeProtocol<NodeIdentifier> {
+    let newNode = DynamicNode(id: id, computation: computation)
+
+    self.lastNode?.nextNode = newNode
+    
+    return DisplayablePipelineBuilder<
+      NodeIdentifier, 
+      DynamicNode<NodeIdentifier, LastNode.Output, Value>
+    >(
+      nodes: self.nodes + [newNode],
+      lastNode: newNode
+    )
+  }
+
+  func build() -> DisplayablePipeline<NodeIdentifier> {
+    DisplayablePipeline(nodes: self.nodes)
+  }
+}
+
+extension DisplayablePipelineBuilder where LastNode == None {
+  convenience init() {
+    self.init(nodes: [any DisplayableNodeProtocol<NodeIdentifier>](), lastNode: nil)
   }
 }

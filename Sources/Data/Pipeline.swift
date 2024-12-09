@@ -37,9 +37,6 @@ enum NodeState<Input, Output> {
 }
 
 protocol NodeProtocol<ID>: AnyObject, Identifiable, InputReceiving, OutputProviding, Runnable {
-  // associatedtype Input
-  // associatedtype Output
-
   var nextNode: (any InputReceiving<Output>)? { get set }
 
   var state: NodeState<Input, Output> { get }
@@ -94,7 +91,7 @@ class DisplayablePipeline<NodeIdentifier: Hashable>: PipelineProtocol {
     self.nodes = nodes
   }
 
-  convenience init(@DisplayablePipelineBuilder2<NodeIdentifier> builder: () -> [NodeType]) {
+  convenience init(@_DisplayablePipelineBuilder<NodeIdentifier> builder: () -> [NodeType]) {
     self.init(nodes: builder())
   }
 

@@ -101,12 +101,12 @@ extension DayXViewModel {
 extension DayXViewModel {
   private static func makePipelines(input: Input) -> [Subproblem: DisplayablePipeline<StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-      }
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .build()
     ]
   }
 }

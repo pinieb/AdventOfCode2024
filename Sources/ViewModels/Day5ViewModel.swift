@@ -171,21 +171,21 @@ extension Day5ViewModel {
 extension Day5ViewModel {
   private static func makePipelines(input: Input) -> [Subproblem: DisplayablePipeline<StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.mapPageIndices, computation: validateOrders)
-        DynamicNode(id: StepID.sumMiddlePageOfValidOrders, computation: sumMiddlePageOfValidOrders)
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.mapPageIndices, computation: validateOrders)
-        DynamicNode(id: StepID.removeValidOrders, computation: removeValidOrders)
-        DynamicNode(id: StepID.createGraph, computation: createGraph)
-        DynamicNode(id: StepID.buildReplacementOrders, computation: buildReplacementOrders)
-        DynamicNode(id: StepID.sumMiddlePageOfValidOrders, computation: sumMiddlePageOfValidOrders)
-      }
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.mapPageIndices, computation: validateOrders)
+        .dynamicNode(id: StepID.sumMiddlePageOfValidOrders, computation: sumMiddlePageOfValidOrders)
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.mapPageIndices, computation: validateOrders)
+        .dynamicNode(id: StepID.removeValidOrders, computation: removeValidOrders)
+        .dynamicNode(id: StepID.createGraph, computation: createGraph)
+        .dynamicNode(id: StepID.buildReplacementOrders, computation: buildReplacementOrders)
+        .dynamicNode(id: StepID.sumMiddlePageOfValidOrders, computation: sumMiddlePageOfValidOrders)
+        .build()
     ]
   }
 

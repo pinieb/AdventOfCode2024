@@ -168,18 +168,18 @@ extension Day7ViewModel {
 extension Day7ViewModel {
   private static func makePipelines(input: Input) -> [Subproblem: DisplayablePipeline<StepID>] {
     [
-      .partOne: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.makeValid, computation: makeValid)
-        DynamicNode(id: StepID.sumValidAnswers, computation: sumValidAnswers)
-      },
-      .partTwo: DisplayablePipeline {
-        StaticNode(id: StepID.loadData, value: input.inputValue)
-        DynamicNode(id: StepID.parseData, computation: parseData)
-        DynamicNode(id: StepID.makeValidWithConcatenation, computation: makeValidWithConcatenation)
-        DynamicNode(id: StepID.sumValidAnswers, computation: sumValidAnswers)
-      }
+      .partOne: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.makeValid, computation: makeValid)
+        .dynamicNode(id: StepID.sumValidAnswers, computation: sumValidAnswers)
+        .build(),
+      .partTwo: DisplayablePipelineBuilder<StepID, None>()
+        .staticNode(id: StepID.loadData, value: input.inputValue)
+        .dynamicNode(id: StepID.parseData, computation: parseData)
+        .dynamicNode(id: StepID.makeValidWithConcatenation, computation: makeValidWithConcatenation)
+        .dynamicNode(id: StepID.sumValidAnswers, computation: sumValidAnswers)
+        .build()
     ]
   }
 
