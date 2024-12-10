@@ -11,12 +11,17 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.3.0"),
         .package(url: "https://github.com/rensbreur/SwiftTUI.git", .branchItem("main")),
+        .package(
+            url: "https://github.com/apple/swift-collections.git", 
+            .upToNextMinor(from: "1.1.0") // or `.upToNextMajor
+        ),
     ],
     targets: [
         .executableTarget(
             name: "aoc24",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Collections", package: "swift-collections"),
                 .product(name: "SwiftTUI", package: "SwiftTUI"),
             ]
         ),
