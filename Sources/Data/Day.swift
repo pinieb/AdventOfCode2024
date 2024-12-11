@@ -8,7 +8,7 @@ enum Day: String, CaseIterable {
   case seven = "Day 7: Bridge Repair"
   case eight = "Day 8: Resonant Collinearity"
   case nine = "Day 9: Disk Fragmenter"
-  case ten = "Day 10"
+  case ten = "Day 10: Hoof It"
   case eleven = "Day 11"
   case twelve = "Day 12"
   case thirteen = "Day 13"
