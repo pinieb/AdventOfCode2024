@@ -17,7 +17,8 @@ struct RootView: View {
     .seven,
     .eight,
     .nine,
-    .ten
+    .ten,
+    .eleven
   ])
 
   @State var displayingDay: Day?
@@ -38,6 +39,7 @@ struct RootView: View {
       case .eight: DayView(viewModel: Day8ViewModel())
       case .nine: DayView(viewModel: Day9ViewModel())
       case .ten: DayView(viewModel: Day10ViewModel())
+      case .eleven: DayView(viewModel: Day11ViewModel())
       default: menuView
     }
   }
