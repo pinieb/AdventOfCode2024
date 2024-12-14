@@ -246,6 +246,27 @@ class DisplayablePipelineBuilder<NodeIdentifier: Hashable, LastNode> {
     )
   }
 
+  @discardableResult
+  func repeatableNode(
+    id: NodeIdentifier, 
+    computation: @escaping (LastNode.Output) -> LastNode.Output
+  ) -> DisplayablePipelineBuilder<
+    NodeIdentifier, 
+    RepeatableNode<NodeIdentifier, LastNode.Output>
+  > where LastNode: DisplayableNodeProtocol<NodeIdentifier> {
+    let newNode = RepeatableNode(id: id, computation: computation)
+
+    self.lastNode?.nextNode = newNode
+    
+    return DisplayablePipelineBuilder<
+      NodeIdentifier, 
+      RepeatableNode<NodeIdentifier, LastNode.Output>
+    >(
+      nodes: self.nodes + [newNode],
+      lastNode: newNode
+    )
+  }
+
   func build() -> DisplayablePipeline<NodeIdentifier> {
     DisplayablePipeline(nodes: self.nodes)
   }
