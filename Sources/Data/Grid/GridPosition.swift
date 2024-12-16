@@ -2,7 +2,7 @@ struct GridPosition: Hashable, Equatable, CustomStringConvertible {
   let row: Int
   let column: Int
 
-  var description: String { "(\(row), \(column))"}
+  var description: String { "(\(row), \(column))" }
 }
 
 extension GridPosition: AdditiveArithmetic {
