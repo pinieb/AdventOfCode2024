@@ -1,8 +1,13 @@
-struct GridPosition: Hashable, Equatable, CustomStringConvertible {
+import Foundation
+
+struct GridPosition: Hashable, Equatable, CustomStringConvertible, DisplayableData {
   let row: Int
   let column: Int
 
   var description: String { "(\(row), \(column))" }
+  var displayData: [AttributedString] {
+    [AttributedString(description)]
+  }
 }
 
 extension GridPosition: AdditiveArithmetic {
