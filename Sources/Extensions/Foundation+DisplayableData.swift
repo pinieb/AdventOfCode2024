@@ -13,6 +13,12 @@ extension Int: DisplayableData {
   }
 }
 
+extension UInt64: DisplayableData {
+  var displayData: [AttributedString] {
+    "\(self)".displayData
+  }
+}
+
 extension Array: DisplayableData where Element: DisplayableData {
   var displayData: [AttributedString] {
     self
