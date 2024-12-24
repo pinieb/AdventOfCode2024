@@ -8,6 +8,10 @@ struct GridPosition: Hashable, Equatable, CustomStringConvertible, DisplayableDa
   var displayData: [AttributedString] {
     [AttributedString(description)]
   }
+
+  func manhattanDistance(to other: GridPosition) -> Int {
+    abs(other.row - row) + abs(other.column - column)
+  }
 }
 
 extension GridPosition: AdditiveArithmetic {
