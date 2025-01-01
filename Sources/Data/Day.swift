@@ -22,6 +22,6 @@ enum Day: String, CaseIterable {
   case twentyOne = "Day 21: Keypad Conundrum"
   case twentyTwo = "Day 22: Monkey Market"
   case twentyThree = "Day 23: LAN Party"
-  case twentyFour = "Day 24"
+  case twentyFour = "Day 24: Crossed Wires"
   case twentyFive = "Day 25"
 }
